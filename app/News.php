@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class News extends Model
 {
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'image',
+        'category_id'
     ];
     /**
      * Una Noticia pertenece a una cierta categoria
