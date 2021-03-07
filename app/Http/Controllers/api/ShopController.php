@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
 use App\Shop;
 use App\Product;
-use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {

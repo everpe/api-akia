@@ -10,7 +10,7 @@ class News extends Model
         'title',
         'description',
         'image',
-        'category_id'
+        'category_id',
     ];
     /**
      * Una Noticia pertenece a una cierta categoria

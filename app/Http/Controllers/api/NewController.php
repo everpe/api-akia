@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\News;
 use Illuminate\Http\Request;
+use App\News;
 
 class NewController extends Controller
 {
@@ -60,9 +60,9 @@ class NewController extends Controller
      * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show(News $new)
+    public function show(News $news)
     {
-        $id = $new->id;
+        $id = $news->id;
         $new=News::findOrFail($id);
         return response()->json(['new' => $new], 200);
    
@@ -72,12 +72,36 @@ class NewController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\News  $news
+     * @param  \App\News  $news, el parametro tiene q ser plural para que traiga el id.
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, News $news)
     {
-        //
+        $input = $request->all();
+        $new = News::findOrFail($news->id);
+        $validate=\Validator::make($input,[
+            'title'=>'required',
+            'description'=>'required',
+            'image'=>'required|mimes:svg|required|max:5000000'
+        ]);
+
+        if(!$validate->fails()){
+            if($request->has('image'))
+            $input['image'] = $this->uploadFile($request->image);
+        
+            //se puede abreviar asi
+            $new->fill($input)->save();
+            return response()->json([
+                'res' => true,
+                'message' => 'Acutlizado correctamente'
+            ], 200);
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => $validate->errors(),
+                'ff'=>$input 
+            ], 400);
+        }
     }
 
     /**
@@ -88,7 +112,11 @@ class NewController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        News::destroy($news->id);
+        return response()->json([
+            'res' => true,
+            'message' => 'Eliminado correctamente'
+        ], 200);
     }
 
 
