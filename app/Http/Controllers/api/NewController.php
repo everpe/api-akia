@@ -8,6 +8,10 @@ use App\News;
 
 class NewController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth:sanctum',
+        ['except'=>['index','show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,8 +38,6 @@ class NewController extends Controller
             'image'=>'required|mimes:svg|required|max:5000000'
         ]);
 
-        echo($input['category_id']);
-
         if(!$validate->fails()){
             if($request->has('image'))
             $input['image'] = $this->uploadFile($request->image);
@@ -48,7 +50,7 @@ class NewController extends Controller
             ], 200);
         }else{
             return response()->json([
-                'res' => true,
+                'res' => false,
                 'message' => $validate->errors()
             ], 400);
         }

@@ -11,6 +11,10 @@ use App\Product;
 class ShopController extends Controller
 {
    
+    public function __construct(){
+        $this->middleware('auth:sanctum',
+        ['except'=>['show','index']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +26,7 @@ class ShopController extends Controller
         return response()->json(['shops' => $shops], 200);
     }
 
-    /**
+    /** 
      * Crea una nueva Shop, en el request va el parametro de id_categoria
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -32,9 +36,12 @@ class ShopController extends Controller
         $params=$request->all();
         $validate=\Validator::make($params,[
             'name'=>'required',
-            'category_id'=>'required|numeric'
+            'category_id'=>'required|numeric',
+            'image'=>'required|mimes:svg|required|max:5000000'
         ]);
         if(!$validate->fails()){
+            if($request->has('image'))
+            $params['image'] = $this->uploadFile($request->image);
             // La creación se puede abreviar asi
             Shop::create($params);
             return response()->json([
@@ -43,7 +50,7 @@ class ShopController extends Controller
             ], 200);
         }else{
             return response()->json([
-                'res' => true,
+                'res' => false,
                 'message' => $validate->errors()
             ], 400);
         } 
@@ -77,9 +84,12 @@ class ShopController extends Controller
         $input = $request->all();
         $validate=\Validator::make($input,[
             'name'=>'required',
-            'category_id'=>'required|numeric'
+            'category_id'=>'required|numeric',
+            'image'=>'required|mimes:svg|required|max:5000000'
         ]);
         if(!$validate->fails()){
+            if($request->has('image'))
+            $input['image'] = $this->uploadFile($request->image);
             // La creación se puede abreviar asi
             $shop->fill($input)->save();
             return response()->json([
@@ -88,7 +98,7 @@ class ShopController extends Controller
             ], 200);
         }else{
             return response()->json([
-                'res' => true,
+                'res' => false,
                 'message' => $validate->errors()
             ], 400);
         } 
@@ -102,6 +112,20 @@ class ShopController extends Controller
      */
     public function destroy(Shop $shop)
     {
-        //
+        Shop::destroy($shop->id);
+        return response()->json([
+            'res' => true,
+            'message' => 'Tienda eliminada correctamente'
+        ], 200);
+    }
+
+    /**
+     * Sube una imagen a un folder 
+     */
+    private function uploadFile($file)
+    {
+        $nombreArchivo = time(). '.'. $file->getClientOriginalExtension();
+        $file->move(public_path('shops'), $nombreArchivo);
+        return $nombreArchivo;
     }
 }

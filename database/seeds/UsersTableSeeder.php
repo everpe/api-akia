@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\User;
+use Illuminate\Support\Facades\Hash;
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -12,10 +13,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $user = new User();
-        $user->name = "Ever Peña";
-        $user->email = "ever@mail.com";
-        $user->password = bcrypt('ever');
-        $user->activation_token = "abcd";
+        $user->name = "administrador";
+        $user->email = "admin@mail.com";
+        $user->password = Hash::make('admin-akia'); //bcrypt('admin-akia');
         $user->save();
+        // $token = $user->createToken('token-name');
+        // // $user->activation_token = "abcd";
+        
     }
 }

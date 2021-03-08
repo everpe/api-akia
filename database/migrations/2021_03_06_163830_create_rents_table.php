@@ -19,14 +19,14 @@ class CreateRentsTable extends Migration
             $table->string('cellphone', 255);
             $table->string('email');
             //numero de giro comercial
-            $table->string('turn_number');
+            $table->string('turn_number')->nullable();
             //numero de franquicia
-            $table->string('franchise_number');
+            $table->string('franchise_number')->nullable();
             //metros cuadrados requeridos
-            $table->string('square_meters_required');
+            $table->string('square_meters_required')->nullable();
             $table->string('type');
             //resulta o sin resolver
-            $table->boolean('state');           
+            $table->boolean('state')->default(true);           
             $table->timestamps();
         });
     }

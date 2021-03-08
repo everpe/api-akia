@@ -14,6 +14,7 @@ class Shop extends Model
         'location', 
         'attention_schedule', 
         'category_id',
+        'image'
     ];
     /**
      * Una tienda pertenece a una cierta categoria

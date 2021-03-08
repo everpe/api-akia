@@ -9,13 +9,13 @@ use Illuminate\Http\Request;
 class RentController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * Todas las rentas que tenga activas
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $rents=Rent::all()->where('state',true);
+        return response()->json(['rents' => $rents], 200);
     }
 
     /**
@@ -26,7 +26,26 @@ class RentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $validate=\Validator::make($input,[
+            'name'=>'required',
+            'cellphone'=>'required',
+            'email'=>'required|email',
+            'type'=>'required'
+        ]);
+        if(!$validate->fails()){
+            // La creación se puede abreviar asi
+            Rent::create($input);
+            return response()->json([
+                'res' => true,
+                'message' => 'Renta creada correctamente'
+            ], 200);
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => $validate->errors()
+            ], 400);
+        }
     }
 
     /**
@@ -41,15 +60,33 @@ class RentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * Solo puede modificarle el estado a las solicitudes de Renta que tiene
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Rent  $rent
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Rent $rent)
     {
-        //
+        $rent = Rent::findOrFail($rent->id);
+        $input = $request->all();
+        $validate=\Validator::make($input,[
+            'state'=>'required'
+            // 'category_id'=>'required|numeric',
+            // 'image'=>'required|mimes:svg|required|max:5000000'
+        ]);
+        if(!$validate->fails()){
+            // La creación se puede abreviar asi
+            $rent->fill($input)->save();
+            return response()->json([
+                'res' => true,
+                'message' => 'Renta Acutlizada correctamente'
+            ], 200);
+        }else{
+            return response()->json([
+                'res' => false,
+                'message' => $validate->errors()
+            ], 400);
+        } 
     }
 
     /**
