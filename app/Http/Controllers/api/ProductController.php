@@ -33,7 +33,7 @@ class ProductController extends Controller
         $input = $request->all();
         $validate=\Validator::make($input,[
             'name'=>'required',
-            'image'=>'required|mimes:svg|required|max:5000000',
+            'image'=>'required|mimes:svg,png,PNG|required|max:5000000',
             'shop_id'=>'required'
         ]);
 
@@ -74,7 +74,7 @@ class ProductController extends Controller
         $input = $request->all();
         $validate=\Validator::make($input,[
             'name'=>'required',
-            'image'=>'required|mimes:svg|required|max:5000000'
+            'image'=>'required|mimes:svg,png,PNG|required|max:5000000'
             // 'shop_id'=>'required'
         ]);
         if(!$validate->fails()){

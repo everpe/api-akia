@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Category;
 use App\Shop;
+use App\News;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -53,7 +54,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Busca todas las tiendas que pertenezcan a cierta categoria.
+     * Busca todas las tiendas y noticias que pertenezcan a cierta categoria.
      *
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
@@ -61,8 +62,10 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $id = $category->id;
+        $category=Category::findOrFail($id);
         $shops = Shop::where('category_id', $id)->get();
-        return response()->json(['category' => $category, 'shops' => $shops], 200);
+        $news = News::where('category_id', $id)->get();
+        return response()->json(['category' => $category, 'shops' => $shops,'news'=>$news], 200);
     }
 
     /**

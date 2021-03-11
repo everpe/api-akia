@@ -35,7 +35,7 @@ class NewController extends Controller
         $validate=\Validator::make($input,[
             'title'=>'required',
             'description'=>'required',
-            'image'=>'required|mimes:svg|required|max:5000000'
+            'image'=>'required|mimes:svg,png,PNG|required|max:5000000'
         ]);
 
         if(!$validate->fails()){
@@ -84,7 +84,7 @@ class NewController extends Controller
         $validate=\Validator::make($input,[
             'title'=>'required',
             'description'=>'required',
-            'image'=>'required|mimes:svg|required|max:5000000'
+            'image'=>'required|mimes:svg,png,PNG|required|max:5000000'
         ]);
 
         if(!$validate->fails()){

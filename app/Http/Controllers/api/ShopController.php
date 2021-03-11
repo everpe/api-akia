@@ -37,7 +37,7 @@ class ShopController extends Controller
         $validate=\Validator::make($params,[
             'name'=>'required',
             'category_id'=>'required|numeric',
-            'image'=>'required|mimes:svg|required|max:5000000'
+            'image'=>'required|mimes:svg,png,PNG|required|max:5000000'
         ]);
         if(!$validate->fails()){
             if($request->has('image'))
@@ -85,7 +85,7 @@ class ShopController extends Controller
         $validate=\Validator::make($input,[
             'name'=>'required',
             'category_id'=>'required|numeric',
-            'image'=>'required|mimes:svg|required|max:5000000'
+            'image'=>'required|mimes:svg,png,PNG|required|max:5000000'
         ]);
         if(!$validate->fails()){
             if($request->has('image'))

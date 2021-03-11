@@ -45,10 +45,12 @@ public function login(Request $request)
     }
 }
 
+/**
+ * No funciona este logout se podria hacer desde el cliente 
+ */
 public function logout(Request $request)
 {
     auth()->user()->tokens()->delete();
     // $request->user()->tokens()->delete();
 }
-
 }
