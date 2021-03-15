@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Rent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RentController extends Controller
 {
@@ -14,7 +15,9 @@ class RentController extends Controller
      */
     public function index()
     {
-        $rents=Rent::all()->where('state',true);
+        // ->where('state',1)
+        $rents=DB::table('rents')->where('state',true)->get();
+        // $rents=Rent::where('state',true);
         return response()->json(['rents' => $rents], 200);
     }
 

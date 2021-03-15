@@ -19,3 +19,13 @@ Route::apiResource('shops', 'api\ShopController');
 Route::post('logout', 'api\UserController@logout');
 
 Route::get('rents/state/{post}','api\RentController@changeState');
+
+
+// Rutas para banners y requistos 
+Route::get('banners/index/{section}','api\ConfigController@indexBanners');
+
+Route::post('banners/create','api\ConfigController@createBanner');
+Route::get('banners/desactive/{id}','api\ConfigController@desactiveImageBanner');
+
+Route::post('requireds/create','api\ConfigController@createRequired');
+Route::get('requireds','api\ConfigController@getRequired');
