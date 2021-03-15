@@ -66,7 +66,7 @@ class NewController extends Controller
     {
         $id = $news->id;
         $new=News::findOrFail($id);
-        return response()->json(['new' => $new], 200);
+        return response()->json(['noticia' => $new], 200);
    
     }
 
@@ -84,7 +84,7 @@ class NewController extends Controller
         $validate=\Validator::make($input,[
             'title'=>'required',
             'description'=>'required',
-            'image'=>'required|mimes:svg,png,PNG|required|max:5000000'
+            'image'=>'mimes:svg,png,PNG|max:5000000'
         ]);
 
         if(!$validate->fails()){

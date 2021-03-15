@@ -89,6 +89,16 @@ class RentController extends Controller
         } 
     }
 
+    public function changeState( $rent)
+    {
+        $rent = Rent::find($rent);
+        $rent->state=false;
+        $rent->save();
+        return response()->json([
+            'res' => true,
+            'message' => "Actulizado correctamente"
+        ], 200);
+    }
     /**
      * Remove the specified resource from storage.
      *

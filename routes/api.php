@@ -17,3 +17,5 @@ Route::post('login', 'api\UserController@login');
 Route::post('register', 'api\UserController@register');
 Route::apiResource('shops', 'api\ShopController');
 Route::post('logout', 'api\UserController@logout');
+
+Route::get('rents/state/{post}','api\RentController@changeState');

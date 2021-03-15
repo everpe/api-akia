@@ -64,8 +64,8 @@ class ShopController extends Controller
     public function show(Shop $shop)
     {
         $id = $shop->id;
-        $shop=Shop::findOrFail($id);
-        $products = $shop->products();
+        $shop=Shop::find($id);
+        $products = $shop->products;
         return response()->json(['shop' => $shop, 'products' => $products], 200);
    
     }

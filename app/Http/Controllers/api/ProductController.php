@@ -101,9 +101,15 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy( $id_product)
     {
-        //
+        // echo($id_product);
+        // return response()->json([
+        //     'res' => $id_product,
+        //     'message' => 'Eliminado correctamente'
+        // ], 200);
+        $product = Product::findOrFail($id_product)->shops()->detach();
+        Product::destroy($id_product);
     }
 
     /**
