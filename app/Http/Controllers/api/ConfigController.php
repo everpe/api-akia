@@ -117,8 +117,8 @@ class ConfigController extends Controller
     public function getRequired(){
         $required = DB::table('requisitos')->first();
         return response()->json([
-            'res' => false,
-            'message' => $required
+            'res' => true,
+            'required' => $required
         ], 200);
     }
 
